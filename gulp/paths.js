@@ -1,6 +1,6 @@
 import path from 'path';
 
-const appName = 'thirdPartyCredit';
+const appName = 'incremental';
 const appDirName = 'app';
 const testDirName = 'tests';
 const releaseDirName = 'dist';
@@ -9,25 +9,21 @@ const fontsExtension = '{eot,woff2,woff,ttf,svg}';
 
 export default {
     root : root,
-    systemConfigJs : `${root}/${appDirName}/config/jspm.config.js`,
     packageJson : `${root}/package.json`,
     appDir: `${root}/${appDirName}`,
     releaseDir: `${root}/${releaseDirName}`,
     testDir: `${root}/${testDirName}`,
+    testReleaseDir: `${root}/${testDirName}/transpiled`,
     release : {
-        root : `${root}/${releaseDirName}`,
-        fonts : `${root}/${releaseDirName}/fonts`
+        root : `${root}/${releaseDirName}`
     },
     releaseDirName: releaseDirName,
-    jspm : {
-        fonts : `${root}/jspm_packages/**/*.${fontsExtension}`
-    },
     app: {
-        entryPoint : `${appDirName}/src/app`,
-        name: `cdk.credit.${appName}`
+        entryPoint : `${appDirName}/js/app`,
+        name: `${appName}`
     },
     local: {
-        bootstrap: `${appDirName}/src/local.bootstrap`
+        bootstrap: `${appDirName}/js/local.bootstrap`
     },
     glob: {
         scss : `${root}/${appDirName}/**/*.scss`,

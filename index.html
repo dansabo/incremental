@@ -1,10 +1,357 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <title>
+        SPACEPLAN
+    </title>
+    <link rel="icon" type="image/png" href="spaceplan.png">
+    <link href="https://fonts.googleapis.com/css?family=Asap|Lato:700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="css/app.css">
 </head>
 <body>
-$END$
+<div class="ending-audio" id="ending-audio">
+    <div>Volume:</div>
+    <input id="endingAudioSlider" class="ending-audio__slider" type="range" min="0" max="1" step="0.01" value="0.5"/>
+</div>
+<div class="mobile-disclaimer" id="mobile-disclaimer">
+    <div class="mobile-disclaimer__inner">
+        <div class="mobilelogo__wrapper">
+            <img src="img/logo__lockup.svg" class="mobilelogo__lockup">
+        </div>
+        <p>
+            This ship doesn't run on mobile phones &mdash; you'll have to come back on a computer.<br/>
+            If you're not on a mobile, perhaps make the window a little wider quickly aye?<br/><br/><br/>
+            <a href="https://twitter.com/jhollands_">@jhollands_</a>&nbsp;&nbsp;&nbsp;<a href="http://jhollands.co.uk">jhollands.co.uk</a>
+        </p>
+    </div>
+</div>
+
+<div class="ending__wrapper" id="ending__wrapper">
+</div>
+<div class="wrapper" id="wrapper__main">
+
+    <div class="wrapper--left">
+
+        <div class="overlay__division"></div>
+        <img class="overlay__reflection  overlay__reflection--side" src="http://www.pixhoster.info/f/2016-08/6aa75289b9b1a8dbaef423a3af536abb.png">
+
+        <div class="wrapper__column--top">
+            <img class="overlay__reflection  overlay__reflection--edge" src="http://www.pixhoster.info/f/2016-08/cf109edaefe2e1f4b375a5ad54daa93b.png">
+
+            <div class="container--high">
+                <span id="resource__header">
+                <img src="img/editicon.svg" id="edit__icon" class="edit__icon">
+                <h1><input id="ship__name" type="text" value="Hopper R-Type" maxlength="20"></h1>
+                <hr>
+                </span>
+                <p class="ship__status" id="ship__status"><span>Ship Status:</span> low power</p>
+                <p class="ship__date" id="ship__date">0000.01.01</p>
+
+                <div class="resource__container">
+
+                    <div class="resource__count" id="watts--total">0</div>
+
+                    <div class="resource__units">watts</div>
+                    <div class="resource__persecond">per second: <span id="watts--ps">0</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper__column--mid">
+            <img class="overlay__reflection  overlay__reflection--edge" src="http://www.pixhoster.info/f/2016-08/cf109edaefe2e1f4b375a5ad54daa93b.png">
+
+            <div class="kinetigen">
+                <p class="kinetigen__title">KinetiGen</p>
+                <p class="kinetigen__model">WT<span>5000</span></p>
+                <canvas class="kinetigen__screen" id="kinetigen__screen"></canvas>
+                <div class="kinetigen__button-padding" id="kinetigen__button-padding">
+                    <div class="kinetigen__button--hole">
+                        <div class="kinetigen__button" onmousedown="kinetigenClick()" onmouseup="kinetigenRelease()">
+                            <div class="kinetigen__button--face">
+                                <div class="kinetigen__button--LEDhole">
+                                    <div class="kinetigen__button--LED" id="kinetigen__button--LED">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="wrapper__column--bottom" id="thingmaker__container">
+            <img class="overlay__reflection  overlay__reflection--edge" src="http://www.pixhoster.info/f/2016-08/cf109edaefe2e1f4b375a5ad54daa93b.png">
+
+            <canvas class="manufacture__canvas" id="thingmaker__canvas"></canvas>
+
+            <div id="manufacture__header" class="container--high">
+                <span>
+                <h1>Thing Maker</h1>
+                <hr>
+                </span>
+
+            </div>
+            <div id="manufacture__container" class="container--high  itemList__container">
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="wrapper--center" id="wrapper--center">
+
+        <div class="overlay__division"></div>
+        <img class="overlay__reflection  overlay__reflection--center" src="http://www.pixhoster.info/f/2016-08/8e510c10dc50b52caeff252bfffcd54d.png">
+        <img class="overlay__reflection  overlay__reflection--edge" src="http://www.pixhoster.info/f/2016-08/cf109edaefe2e1f4b375a5ad54daa93b.png">
+
+
+        <canvas class="centerPower__canvas" id="centerPower__canvas"></canvas>
+
+        <div class="inactive-tab" id="inactive-tab">
+            <div class="inactive-tab__inner">
+                <p>Visualisations disabled while tab is inactive to save processing power.</p>
+                <p>To enable, change in options.</p>
+            </div>
+        </div>
+
+        <div class="center__header">
+            <div class="center__header--plan" id="center__header--plan" onclick="toggleCanvas(this)">
+                <h1 id="center__header__planType">Planet Looker</h1>
+            </div>
+            <hr id="header__hr">
+            <div class="center__header--syst" id="center__header--syst" onclick="toggleCanvas(this)">
+                <h1 class="center__header--systSmall" id="center__header__systType">System Peeker</h1>
+
+            </div>
+        </div>
+
+        <img src="img/about.svg" class="about__button" id="about__button" width="20" height="20" onclick="toggleAbout()">
+        <canvas class="options__button" id="options__button" width="20" height="20" onclick="toggleOptions()"></canvas>
+
+        <div class="about" id="about">
+            <div class="about__wrapper">
+                <div class="logo__wrapper">
+                    <img src="img/logo__lockup.svg" class="logo__lockup">
+
+                </div>
+                <p>is an incrementally themed experimental piece of interaction<br/>based partly on Jake Hollands' total misunderstanding<br/>of Stephen Hawking's 'A Brief History of Time'.</p>
+                <p>Created by Jake Hollands<br/><a href="https://twitter.com/jhollands_" target="_blank">twitter</a> | <a href="http://jhollands.co.uk" target="_blank">jhollands.co.uk</a> | <a href="mailto:jake@jhollands.co.uk" target="_blank">email</a></p>
+                <p>Audio by Logan Gabriel<br/><a href="https://twitter.com/logeyG" target="_blank">twitter</a> | <a href="https://soundcloud.com/logangabriel" target="_blank">soundcloud</a></p>
+                Disposable Income Leaderboard:
+                <div class="cont__list" id="contributor-list">
+                    <div class="cont__row">
+                        <div class="cont__name">
+                            Loading...
+                        </div>
+                        <div class="cont__don">
+                        </div>
+                    </div>
+                    <div class="cont__row">
+                        <div class="cont__name">
+                            Loading...
+                        </div>
+                        <div class="cont__don">
+                        </div>
+                    </div>
+                    <div class="cont__row">
+                        <div class="cont__name">
+                            Loading...
+                        </div>
+                        <div class="cont__don">
+                        </div>
+                    </div>
+                </div>
+                <a href="https://imraising.tv/u/jhollands" target="_blank"><div class="about__cont">Tip with Paypal</div></a>
+                <p>
+                    Thanks for help & advice<br/>
+                    Guy<span class='no-break'>&nbsp;</span>Cockcroft,
+                    Joe<span class='no-break'>&nbsp;</span>Hollands,
+                    Berna<span class='no-break'>&nbsp;</span>Gonen &
+                    Rich<span class='no-break'>&nbsp;</span>B
+                    <br/><br/>
+                    Thanks for playing & testing to<br/>
+                    CJ<span class='no-break'>&nbsp;</span>Harries,
+                    Shadow<span class='no-break'>&nbsp;</span>Phillips,
+                    Konng_, Ed<span class='no-break'>&nbsp;</span>Gallagher,<br/>
+                    Alex<span class='no-break'>&nbsp;</span>Woodhouse,
+                    JPTiger,
+                    Kimbrian<span class='no-break'>&nbsp;</span>Marshall,<br/>
+                    Joe<span class='no-break'>&nbsp;</span>Hollands,
+                    Ben<span class='no-break'>&nbsp;</span>Hollands,
+                    James<span class='no-break'>&nbsp;</span>Neal,<br/>
+                    Marc<span class='no-break'>&nbsp;</span>Gunthorpe,
+                    Grant<span class='no-break'>&nbsp;</span>Chidzey,
+                    Kieran<span class='no-break'>&nbsp;</span>Delbaere,<br/>
+                    deeprot,
+                    Adric<span class='no-break'>&nbsp;</span>Burks,
+                    Frederick<span class='no-break'>&nbsp;</span>Lebel &
+                    spacetimewanderer
+                </p>
+            </div>
+        </div>
+
+        <div class="options" id="options">
+            <div class="options__header">
+                <div class="">
+                    <h1>Ship Settings</h1>
+                </div>
+                <hr>
+            </div>
+            <div class="options__wrapper">
+                <div class="options__option">
+                    <span class="options--textLeft">Sound is</span>
+                    <div class="options--left">
+                        <span class="options__toggle  options__toggle--sound" id="options__sound--y" onclick="muteSound(this)">on</span>
+                        <span class="options__toggle  options__toggle--sound" id="options__sound--n" onclick="muteSound(this)">off</span>
+                    </div>
+                    <span class="options--textRight">and this loud &rarr;</span>
+                    <div class="options--right">
+                        <input class="options__slider" id="options__volume" type="range" min="0" max="1" step="0.01" value="0.5"/>
+                    </div>
+                </div>
+                <div class="options__option">
+                    <span class="options--textLeft">Auto-save</span>
+                    <div class="options--left">
+                        <span class="options__toggle  options__toggle--sound" id="options__autosave--y" onclick="autoSave(this)">on</span>
+                        <span class="options__toggle  options__toggle--sound" id="options__autosave--n" onclick="autoSave(this)">off</span>
+                    </div>
+                    <span class="options--textRight">and saves every</span>
+                    <div class="options--right">
+                        <span class="options__toggle  options__toggle--savefreq" id="options__savefreq--30s" onclick="saveFreq(this)">30s</span>
+                        <span class="options__toggle  options__toggle--savefreq" id="options__savefreq--60s" onclick="saveFreq(this)">60s</span>
+                        <span class="options__toggle  options__toggle--savefreq" id="options__savefreq--5m" onclick="saveFreq(this)">5m</span>
+                        <span class="options__toggle  options__toggle--savefreq" id="options__savefreq--30m" onclick="saveFreq(this)">30m</span>
+                    </div>
+                </div>
+                <div class="options__option">
+                    <span class="options--textLeft">Last save was <span id="options__lastsaved">never.</span></span>
+                    <div class="options--right">
+                        <span class="options__toggle  options__save  options__toggle--vis" id="options__save" onclick="saveState()">save</span>
+                        <span class="options__toggle  options__clear  options__toggle--vis" id="options__delete" onclick="deleteSave()">clear</span>
+                    </div>
+                </div>
+                <div class="options__option">
+                    <span class="options--textLeft">Draw visuals while window isn't focused?</span>
+                    <div class="options--right">
+                        <span class="options__toggle  options__toggle--vis" id="options__drawvis--y" onclick="drawVis(this)">yes</span>
+                        <span class="options__toggle  options__toggle--vis" id="options__drawvis--n" onclick="drawVis(this)">no</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <canvas class="center__canvas" id="center__canvas"></canvas>
+        <canvas class="center__sunCanvas" id="center__sunCanvas"></canvas>
+
+
+    </div>
+
+
+    <div class="wrapper--right">
+
+        <img class="overlay__reflection  overlay__reflection--side" src="http://www.pixhoster.info/f/2016-08/6aa75289b9b1a8dbaef423a3af536abb.png">
+
+
+
+        <div class="wrapper__column--top" id="information__container">
+            <img class="overlay__reflection  overlay__reflection--edge" src="http://www.pixhoster.info/f/2016-08/cf109edaefe2e1f4b375a5ad54daa93b.png">
+
+            <canvas class="information__canvas" id="information__canvas"></canvas>
+
+            <div id="info__header" class="container--high">
+                <span>
+                <h1>Fact Holder</h1>
+                <hr>
+                </span>
+                <div id="status__container" class="status__container">
+                    <p id="status__gravSrc"></p>
+                    <progress id="status__atmosphereBar" style="display: none;"></progress>
+                    <p id="status__atmosphere"></p>
+                    <progress id="status__inhabitantsBar" style="display: none;"></progress>
+                    <p id="status__inhabitants"></p>
+                    <progress id="status__sunMassBar" style="display: none;"></progress>
+                    <p id="status__sunMass"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper__column--mid" id="eventlog__wrapper">
+            <img class="overlay__reflection  overlay__reflection--edge" src="http://www.pixhoster.info/f/2016-08/cf109edaefe2e1f4b375a5ad54daa93b.png">
+
+            <canvas class="eventlog__canvas" id="eventlog__canvas"></canvas>
+            <div class="status__gradient"></div>
+
+            <div id="status__header" class="container--high">
+                <span>
+                <h1>Word Outputter</h1>
+                <hr>
+                </span>
+                <div id="eventLog__container" class="eventLog__container">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper__column--bottom" id="develop__wrapper">
+            <img class="overlay__reflection  overlay__reflection--edge" src="http://www.pixhoster.info/f/2016-08/cf109edaefe2e1f4b375a5ad54daa93b.png">
+
+            <canvas class="develop__canvas" id="develop__canvas"></canvas>
+
+            <div id="develop__header" class="container--high">
+                <span>
+                <h1>Idea Lister</h1>
+                <hr>
+                </span>
+
+            </div>
+            <div id="develop__container" class="container--high  itemList__container">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<img id ="icon__solar" src="img/icons/ico__solar.svg" class="manufacture__icon">
+<img id ="icon__potato" src="img/icons/ico__potato.svg" class="manufacture__icon">
+<img id ="icon__potatolauncher" src="img/icons/ico__potatolauncher.svg" class="manufacture__icon">
+<img id ="icon__potatoplant" src="img/icons/ico__potatoplant.svg" class="manufacture__icon">
+<img id ="icon__probe" src="img/icons/ico__probe.svg" class="manufacture__icon">
+<img id ="icon__spudgun" src="img/icons/ico__spudgun.svg" class="manufacture__icon">
+<img id ="icon__spudnik" src="img/icons/ico__spudnik.svg" class="manufacture__icon">
+<img id ="icon__tatertower" src="img/icons/ico__tatertower.svg" class="manufacture__icon">
+<img id ="icon__cleanPanels" src="img/icons/ico__cleanPanels.svg" class="manufacture__icon">
+<img id ="icon__polishedPanels" src="img/icons/ico__polishedPanels.svg" class="manufacture__icon">
+<img id ="icon__goldenPanels" src="img/icons/ico__goldenPanels.svg" class="manufacture__icon">
+<img id ="icon__probetatoFoil" src="img/icons/ico__probetatoFoil.svg" class="manufacture__icon">
+<img id ="icon__solarAmbience" src="img/icons/ico__solarAmbience.svg" class="manufacture__icon">
+<img id ="icon__podModule" src="img/icons/ico__podModule.svg" class="manufacture__icon">
+<img id ="icon__landship" src="img/icons/ico__landship.svg" class="manufacture__icon">
+<img id ="icon__systemView" src="img/icons/ico__systemView.svg" class="manufacture__icon">
+<img id ="icon__planetBoosters" src="img/icons/ico__planetBoosters.svg" class="manufacture__icon">
+<img id ="icon__approachEventHorizon" src="img/icons/ico__approachEventHorizon.svg" class="manufacture__icon">
+<img id ="icon__kinetigen01" src="img/icons/ico__kinetigen01.svg" class="manufacture__icon">
+<img id ="icon__kinetigen02" src="img/icons/ico__kinetigen02.svg" class="manufacture__icon">
+<img id ="icon__kinetigen03" src="img/icons/ico__kinetigen03.svg" class="manufacture__icon">
+<img id ="icon__kinetigen04" src="img/icons/ico__kinetigen04.svg" class="manufacture__icon">
+<img id ="icon__landshipAgain" src="img/icons/ico__landshipAgain.svg" class="manufacture__icon">
+<img id ="icon__spudnikUpgrade" src="img/icons/ico__spudnikUpgrade.svg" class="manufacture__icon">
+<img id ="icon__potatoUpgrade" src="img/icons/ico__potatoUpgrade.svg" class="manufacture__icon">
+<img id ="icon__probetatoUpgrade" src="img/icons/ico__probetatoUpgrade.svg" class="manufacture__icon">
+<img id ="icon__potatoplantUpgrade" src="img/icons/ico__potatoplantUpgrade.svg" class="manufacture__icon">
+<img id ="icon__taterUpgrade" src="img/icons/ico__taterUpgrade.svg" class="manufacture__icon">
+<img id ="icon__spudgunUpgrade" src="img/icons/ico__spudgunUpgrade.svg" class="manufacture__icon">
+<img id ="icon__potatoLauncherUpgrade" src="img/icons/ico__potatoLauncherUpgrade.svg" class="manufacture__icon">
+<img id ="icon__irishPride" src="img/icons/ico__irishPride.svg" class="manufacture__icon">
+
+<script src="js/app.js"></script>
+
 </body>
+
+
 </html>
